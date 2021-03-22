@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension CityItem {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CityItem> {
@@ -17,5 +16,4 @@ extension CityItem {
     }
 
     @NSManaged public var name: String?
-
 }

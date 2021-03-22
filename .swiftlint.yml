@@ -1,0 +1,15 @@
+line_length:
+ - 400 # warning
+ - 500 # error
+
+disabled_rules:
+ - force_cast
+ - unused_closure_parameter
+ - trailing_whitespace
+ - for_where
+ - unused_optional_binding
+ - file_length
+ - identifier_name
+ - function_parameter_count
+ - type_name
+ - type_body_length

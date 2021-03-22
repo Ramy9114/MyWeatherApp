@@ -10,97 +10,105 @@ import CoreData
 import Alamofire
 import Swinject
 
+protocol CitiesTableViewProtocol: class {
+    func getCities()
+    func createCity(cityName: String)
+    func deleteCity(cityName: String, index: Int)
+    func alertUser (alert: String)
+    func reloadCities()
+}
+
 class CitiesTableViewController: UIViewController {
-
-    //UI
     @IBOutlet weak var tableView: UITableView!
-    
-//    var cities: [City] = []
-    private var models = [CityItem]()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-    
-
+    // MARK: - Public properties
+    private var viewModel: CitiesTableViewModelProtocol!
     override func viewDidLoad() {
         super.viewDidLoad()
-        getCities()
-        
+        self.viewModel = CitiesTableViewModel(useCases: CitiesTableUseCases(citiesRepository: CitiesRepository(coreDataManager: CoreDataManager(), weatherService: WeatherService())))
+        self.viewModel.bindToView(view: self)
+        self.getCities()
     }
-    
-    //Adding a City to the Table View
+
     @IBAction func addCity(_ sender: Any) {
         let alert = UIAlertController(title: "Add City", message: nil, preferredStyle: .alert)
         alert.addTextField { (cityTF) in cityTF.placeholder = "Enter City" }
         let action = UIAlertAction(title: "Add", style: .default) { (_) in
-            guard let city = alert.textFields?.first?.text else {return}
-            self.createCity(name: city)
-            self.tableView.reloadData()
-            
-            //It is from here that i call the ViewModel Function
+            guard let city = alert.textFields?.first?.text?.capitalized else {return}
+            self.createCity(cityName: city)
+            self.getCities()
         }
         alert.addAction(action)
         present(alert, animated: true)
     }
-    
 }
 
-//MARK: - Managing TableView Delegate and DataSource Content
+// MARK: - Managing TableView Delegate and DataSource Content
 extension CitiesTableViewController: UITableViewDataSource, UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return models.count
+        return viewModel.getNumberOfCities()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let model = models[indexPath.row]
+        let name = viewModel.datasource[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
-        cell.cityNameLabel?.text = model.name
-        cell.forwardImage.image = UIImage(named:"ios-forward-icon")
+        cell.cityNameLabel?.text = name
+        cell.forwardImage.image = UIImage(named: "ios-forward-icon")
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else {return}
-        let Curritem : CityItem = models[indexPath.row]
-        deleteCity(item: Curritem)
-        models.remove(at: indexPath.row)
+        let curritem = viewModel.datasource[indexPath.row]
+        self.deleteCity(cityName: curritem, index: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
 }
 
-//MARK: - TableView Populator
+// MARK: - TableView Go To Weather Detail Segue
 extension CitiesTableViewController {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToWeatherDetail", sender: self)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? WeatherDetailViewController {
+            destination.cityName = self.viewModel.datasource[(tableView.indexPathForSelectedRow?.row)!]
+            tableView.deselectRow(at: tableView.indexPathForSelectedRow!, animated: true)
+        }
+    }
+}
+
+// MARK: - TableView Populator
+extension CitiesTableViewController: CitiesTableViewProtocol {
+
+    func createCity(cityName: String) {
+        viewModel.createCity(cityName: cityName)
+    }
+
     func getCities() {
-        do{
-            models = try context.fetch(CityItem.fetchRequest())
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        } catch {
-            // error
-            
+        viewModel.getCities()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
-    
-    func createCity(name: String) {
-        let newItem = CityItem(context: context)
-        newItem.name = name
-        do {
-            try context.save()
-            getCities()
-        } catch {
-            //error
+
+    func deleteCity(cityName: String, index: Int) {
+        viewModel.deleteCity(cityName: cityName, index: index)
+    }
+
+    func reloadCities() {
+        self.tableView.reloadData()
+    }
+
+}
+
+// MARK: - View Functions called from ViewModel
+extension CitiesTableViewController {
+    func alertUser(alert: String) {
+        Alert.showBasic(title: "", message: alert, vc: self)
+        self.getCities()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
-    
-    func deleteCity (item: CityItem) {
-        context.delete(item)
-        do {
-            try context.save()
-        } catch {
-            //error
-        }
-    }
-    
 }

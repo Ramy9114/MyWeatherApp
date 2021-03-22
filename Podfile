@@ -7,5 +7,6 @@ target 'MyWeatherApp' do
   # Pods for MyWeatherApp
   pod 'Alamofire', '~> 5.2'
   pod 'Swinject'
+  pod 'SwiftLint'
   
 end
