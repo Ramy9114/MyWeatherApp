@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import CoreData
 
 protocol CitiesTableViewModelProtocol: class {
@@ -22,7 +21,6 @@ final class CitiesTableViewModel {
     // MARK: - Public variables
     private var models = [CityItem]()
     var datasource = [String]()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     weak var view: CitiesTableViewProtocol?
     var callBack: WeatherCallBack?
     // MARK: - Private variables
@@ -85,8 +83,6 @@ extension CitiesTableViewModel: CitiesTableViewModelProtocol {
     }
 
     func deleteCity (cityName: String, index: Int) {
-        let cityItem = CityItem(context: self.context)
-        cityItem.name = cityName
         useCases?.executeDeleteCity(cityName: cityName)
         datasource.remove(at: index)
         DispatchQueue.main.async {

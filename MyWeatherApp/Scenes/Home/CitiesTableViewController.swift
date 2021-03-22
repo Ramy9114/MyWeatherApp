@@ -6,9 +6,6 @@
 //
 
 import UIKit
-import CoreData
-import Alamofire
-import Swinject
 
 protocol CitiesTableViewProtocol: class {
     func getCities()

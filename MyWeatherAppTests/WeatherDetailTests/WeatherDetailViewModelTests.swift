@@ -18,10 +18,9 @@ class WeatherDetailViewModelMock: WeatherDetailViewModelProtocol {
         
     }
     
-    func completionHandler(callBack: @escaping weatherCallBack) {
+    func completionHandler(callBack: @escaping WeatherCallBack) {
         
     }
-    
 
     var bindToViewCalled: Bool = false
     func bindToView(view: WeatherDetailViewModelProtocol) {
