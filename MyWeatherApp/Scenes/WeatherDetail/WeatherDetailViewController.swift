@@ -34,7 +34,7 @@ extension WeatherDetailViewController: WeatherDetailViewProtocol {
         temperatureLabel.text = String(Int(weather.temperature))
         weatherImageView.image = UIImage(named: weather.conditionName)
     }
-    func getCurrentWeather (cityName: String?) {
+    func getCurrentWeather(cityName: String?) {
         viewModel?.getCurrentWeather(cityName: cityName)
     }
 }

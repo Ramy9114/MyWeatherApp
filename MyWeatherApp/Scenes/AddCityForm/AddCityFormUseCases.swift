@@ -1,31 +1,34 @@
-////
-////  AddCityFormUseCases.swift
-////  MyWeatherApp
-////
-////  Created by Rami Moubayed on 22/03/2021.
-////  Copyright (c) 2021 ___ORGANIZATIONNAME___. All rights reserved.
-////
 //
-//import UIKit
+//  AddCityFormUseCases.swift
+//  MyWeatherApp
 //
-//protocol AddCityFormUseCasesProtocol: class {
+//  Created by Rami Moubayed on 22/03/2021.
+//  Copyright (c) 2021 ___ORGANIZATIONNAME___. All rights reserved.
 //
-//}
-//
-//final class AddCityFormUseCases {
-//
-//    // MARK: - Private variables
-//    private let <#something#>Repository: <#Something#>RepositoryProtocol?
-//
-//    // MARK: - Initialization
-//    init(<#something#>Repository: <#Something#>RepositoryProtocol) {
-//        self.<#something#>Repository = <#something#>Repository
-//    }
-//
-//    // MARK: - Execute functions
-//
-//}
-//
-//extension AddCityFormUseCases: AddCityFormUseCasesProtocol {
-//
-//}
+
+import UIKit
+
+protocol AddCityFormUseCasesProtocol: class {
+    func executeAddCity(cityName: String)
+}
+
+final class AddCityFormUseCases {
+
+    // MARK: - Private variables
+    private let addCityFormRepository: AddCityFormRepositoryProtocol?
+
+    // MARK: - Initialization
+    init(addCityFormRepository: AddCityFormRepositoryProtocol) {
+        self.addCityFormRepository = addCityFormRepository
+    }
+
+    // MARK: - Execute functions
+
+}
+
+extension AddCityFormUseCases: AddCityFormUseCasesProtocol {
+    func executeAddCity(cityName: String) {
+        
+    }
+    
+}

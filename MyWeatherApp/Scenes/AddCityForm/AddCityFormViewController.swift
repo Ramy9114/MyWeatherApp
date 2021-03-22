@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddCityFormViewProtocol: class {
-
+    func addCity(cityName: String)
 }
 
 class AddCityFormViewController: UIViewController {
@@ -20,19 +20,18 @@ class AddCityFormViewController: UIViewController {
     
     // MARK: - Public properties
 
-//    private var viewModel: AddCityFormViewModelProtocol!
 
     // MARK: - Private properties
-
+    private var viewModel: AddCityFormViewModelProtocol!
     // MARK: - View lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Looks for single or multiple taps.
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
-        cityNameTextField.delegate = self
         disableSubmitButton()
+        cityNameTextField.delegate = self
+        self.viewModel = AddCityFormViewModel(useCases: AddCityFormUseCases(addCityFormRepository: AddCityFormRepository(coreDataManager: CoreDataManager(), weatherService: WeatherService())))
     }
     
     @IBAction func submitTapped(_ sender: Any) {
@@ -83,4 +82,7 @@ extension AddCityFormViewController: UITextFieldDelegate {
 
 extension AddCityFormViewController: AddCityFormViewProtocol {
 
+    func addCity(cityName: String) {
+        viewModel.addCity(cityName: cityName)
+    }
 }
