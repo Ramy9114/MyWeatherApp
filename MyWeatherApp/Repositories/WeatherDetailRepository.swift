@@ -13,7 +13,6 @@ protocol WeatherDetailRepositoryProtocol: class {
 }
 
 final class WeatherDetailRepository {
-    var callBack: WeatherCallBack?
 
     let weatherService: WeatherServiceProtocol?
     init(weatherService: WeatherServiceProtocol) {

@@ -18,7 +18,6 @@ protocol WeatherServiceProtocol {
 }
 
 class WeatherService: WeatherServiceProtocol {
-    var callBack: WeatherCallBack?
     let APIKEY = "fac449c53f5bc8239820342f79d4edd7"
     
     func fetchCurrentWeather(cityName: String?, completion: @escaping  (_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void) {

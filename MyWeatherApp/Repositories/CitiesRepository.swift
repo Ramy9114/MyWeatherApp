@@ -17,9 +17,6 @@ protocol CitiesRepositoryProtocol: class {
 }
 
 final class CitiesRepository {
-    
-    var callBack: WeatherCallBack?
-
     let coreDataManager: CoreDataManagerProtocol?
     let weatherService: WeatherServiceProtocol?
 

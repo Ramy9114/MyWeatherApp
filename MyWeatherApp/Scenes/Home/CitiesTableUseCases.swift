@@ -16,7 +16,6 @@ protocol CitiesTableUseCasesProtocol: class {
 }
 
 final class CitiesTableUseCases {
-    var callBack: WeatherCallBack?
 
     // MARK: - Private variables
     private let citiesRepository: CitiesRepositoryProtocol?
@@ -46,12 +45,15 @@ extension CitiesTableUseCases: CitiesTableUseCasesProtocol {
             }
         })
     }
+    
     func executeSaveCity(cityName: String) -> CoreDataError? {
         return citiesRepository?.saveCity(cityName: cityName)
     }
+    
     func executeGetCities() -> [CityItem]? {
         return citiesRepository?.getCities()
     }
+    
     func executeDeleteCity(cityName: String) {
         citiesRepository?.deleteCity(cityName: cityName)
     }

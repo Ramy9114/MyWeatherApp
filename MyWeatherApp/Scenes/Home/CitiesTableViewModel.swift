@@ -22,7 +22,6 @@ final class CitiesTableViewModel {
     private var models = [CityItem]()
     var datasource = [String]()
     weak var view: CitiesTableViewProtocol?
-    var callBack: WeatherCallBack?
     // MARK: - Private variables
 //    private let navigations: GenericViewModelNavigation?
     private let useCases: CitiesTableUseCasesProtocol?
@@ -33,12 +32,14 @@ final class CitiesTableViewModel {
 }
 
 extension CitiesTableViewModel: CitiesTableViewModelProtocol {
-    func getNumberOfCities() -> Int {
-        return datasource.count
-    }
     func bindToView(view: CitiesTableViewProtocol) {
         self.view = view
     }
+    
+    func getNumberOfCities() -> Int {
+        return datasource.count
+    }
+    
     func getCities() {
         if let cities = useCases?.executeGetCities() {
             datasource.removeAll()

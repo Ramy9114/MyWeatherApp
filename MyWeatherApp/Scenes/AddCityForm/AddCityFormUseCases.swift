@@ -9,7 +9,10 @@
 import UIKit
 
 protocol AddCityFormUseCasesProtocol: class {
-    func executeAddCity(cityName: String)
+    func executeCheckCityFromCoreData(cityName: String) -> CoreDataError?
+    func executeGetCity(cityName: String, completion: @escaping (_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void)
+    func executeSaveCity(cityName: String) -> CoreDataError?
+
 }
 
 final class AddCityFormUseCases {
@@ -27,8 +30,23 @@ final class AddCityFormUseCases {
 }
 
 extension AddCityFormUseCases: AddCityFormUseCasesProtocol {
-    func executeAddCity(cityName: String) {
-        
+    
+    func executeCheckCityFromCoreData(cityName: String) -> CoreDataError? {
+        return addCityFormRepository?.fetchCityFromCoreData(cityName: cityName)
     }
     
+    func executeGetCity(cityName: String, completion: @escaping (WeatherModel?, Bool, String) -> Void) {
+        addCityFormRepository?.fetchCity(cityName: cityName, completion: { (weather, status, message) in
+            if status {
+                guard let weather = weather else {return}
+                completion(weather, true, message)
+            } else {
+                completion(nil, false, message)
+            }
+        })
+    }
+    
+    func executeSaveCity(cityName: String) -> CoreDataError? {
+        return addCityFormRepository?.saveCity(cityName: cityName)
+    }
 }

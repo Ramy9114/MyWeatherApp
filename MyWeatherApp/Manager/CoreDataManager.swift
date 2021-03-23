@@ -17,8 +17,6 @@ enum CoreDataError: Error {
     case cityAlreadyInlist
 }
 
-typealias WeatherCallBack = (_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void
-
 protocol CoreDataManagerProtocol {
     func saveCity(cityName: String) -> CoreDataError?
     func getCity (cityName: String, completion: @escaping(_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void)
@@ -29,7 +27,6 @@ protocol CoreDataManagerProtocol {
 
 class CoreDataManager: CoreDataManagerProtocol {
     
-    var callBack: WeatherCallBack?
     let API_KEY = "fac449c53f5bc8239820342f79d4edd7"
     var BASEURL = "https://api.openweathermap.org/data/2.5/weather?q=London&appid=fac449c53f5bc8239820342f79d4edd7"
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext

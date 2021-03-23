@@ -10,6 +10,7 @@ import UIKit
 
 protocol AddCityFormViewProtocol: class {
     func addCity(cityName: String)
+    func alertUser (alert: String)
 }
 
 class AddCityFormViewController: UIViewController {
@@ -19,7 +20,6 @@ class AddCityFormViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     
     // MARK: - Public properties
-
 
     // MARK: - Private properties
     private var viewModel: AddCityFormViewModelProtocol!
@@ -32,14 +32,15 @@ class AddCityFormViewController: UIViewController {
         disableSubmitButton()
         cityNameTextField.delegate = self
         self.viewModel = AddCityFormViewModel(useCases: AddCityFormUseCases(addCityFormRepository: AddCityFormRepository(coreDataManager: CoreDataManager(), weatherService: WeatherService())))
+        self.viewModel.bindToView(view: self)
     }
     
     @IBAction func submitTapped(_ sender: Any) {
-        cityNameTextField.endEditing(true)
-        
-        if cityNameTextField.text == "" {
-            
-        }
+        // Clear the content of the Textfield
+        // Make the rest of the process
+        let cityName = cityNameTextField.text
+        addCity(cityName: cityName!)
+//        Alert.showBasic(title: "", message: "Hello", vc: self)
     }
     
     // MARK: - Display logic
@@ -84,5 +85,12 @@ extension AddCityFormViewController: AddCityFormViewProtocol {
 
     func addCity(cityName: String) {
         viewModel.addCity(cityName: cityName)
+    }
+}
+
+// MARK: - View Functions called from ViewModel
+extension AddCityFormViewController {
+    func alertUser(alert: String) {
+        Alert.showBasic(title: "", message: alert, vc: self)
     }
 }

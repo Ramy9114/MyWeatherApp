@@ -17,7 +17,6 @@ final class WeatherDetailViewModel {
 
     // MARK: - Public variables
     weak var view: WeatherDetailViewProtocol?
-    var callBack: WeatherCallBack?
 
     // MARK: - Private variables
     private let useCases: WeatherDetailUseCasesProtocol?

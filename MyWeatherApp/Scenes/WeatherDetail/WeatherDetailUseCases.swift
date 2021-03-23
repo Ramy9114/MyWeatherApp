@@ -13,7 +13,6 @@ protocol WeatherDetailUseCasesProtocol: class {
 }
 
 final class WeatherDetailUseCases {
-    var callBack: WeatherCallBack?
 
     // MARK: - Private variables
     private let weatherDetailRepository: WeatherDetailRepositoryProtocol?
