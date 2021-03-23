@@ -25,8 +25,6 @@ class CitiesTableViewController: UIViewController {
         self.viewModel = CitiesTableViewModel(useCases: CitiesTableUseCases(citiesRepository: CitiesRepository(coreDataManager: CoreDataManager(), weatherService: WeatherService())))
         self.viewModel.bindToView(view: self)
         self.getCities()
-        
-        Alert.showBasic(title: "", message: "HOLA BUENOS DIAS", vc: self)
     }
 
     @IBAction func addCity(_ sender: Any) {
