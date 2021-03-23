@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol AddCityFormViewModelDelegate: class {
+    func didAddCity(alert: String)
+}
+
 protocol AddCityFormViewProtocol: class {
     func addCity(cityName: String)
     func alertUser (alert: String)
+    func dismissVC()
 }
 
 class AddCityFormViewController: UIViewController {
@@ -20,9 +25,9 @@ class AddCityFormViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     
     // MARK: - Public properties
-
+    weak var delegate: AddCityFormViewModelDelegate?
     // MARK: - Private properties
-    private var viewModel: AddCityFormViewModelProtocol!
+    var viewModel: AddCityFormViewModelProtocol!
     // MARK: - View lifecycle
 
     override func viewDidLoad() {
@@ -33,6 +38,7 @@ class AddCityFormViewController: UIViewController {
         cityNameTextField.delegate = self
         self.viewModel = AddCityFormViewModel(useCases: CitiesTableUseCases(citiesRepository: CitiesRepository(coreDataManager: CoreDataManager(), weatherService: WeatherService())))
         self.viewModel.bindToView(view: self)
+        
     }
     
     @IBAction func submitTapped(_ sender: Any) {
@@ -40,6 +46,7 @@ class AddCityFormViewController: UIViewController {
         // Make the rest of the process
         let cityName = cityNameTextField.text
         addCity(cityName: cityName!)
+        
 //        Alert.showBasic(title: "", message: "Hello", vc: self)
     }
     
@@ -85,6 +92,12 @@ extension AddCityFormViewController: AddCityFormViewProtocol {
 
     func addCity(cityName: String) {
         viewModel.addCity(cityName: cityName)
+        
+    }
+    
+    func dismissVC() {
+        self.dismiss(animated: true, completion: nil)
+        self.delegate?.didAddCity(alert: "City Successfully Added!")
     }
 }
 
