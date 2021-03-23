@@ -31,7 +31,7 @@ class AddCityFormViewController: UIViewController {
         view.addGestureRecognizer(tap)
         disableSubmitButton()
         cityNameTextField.delegate = self
-        self.viewModel = AddCityFormViewModel(useCases: AddCityFormUseCases(addCityFormRepository: AddCityFormRepository(coreDataManager: CoreDataManager(), weatherService: WeatherService())))
+        self.viewModel = AddCityFormViewModel(useCases: CitiesTableUseCases(citiesRepository: CitiesRepository(coreDataManager: CoreDataManager(), weatherService: WeatherService())))
         self.viewModel.bindToView(view: self)
     }
     

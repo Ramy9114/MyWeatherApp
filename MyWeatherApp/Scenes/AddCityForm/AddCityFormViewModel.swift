@@ -17,10 +17,10 @@ final class AddCityFormViewModel {
     weak var view: AddCityFormViewProtocol?
 
     // MARK: - Private variables
-    private let useCases: AddCityFormUseCasesProtocol?
+    private let useCases: CitiesTableUseCasesProtocol?
 
     // MARK: - Initialization
-    init (useCases: AddCityFormUseCasesProtocol) {
+    init (useCases: CitiesTableUseCasesProtocol) {
         self.useCases = useCases
     }
 
