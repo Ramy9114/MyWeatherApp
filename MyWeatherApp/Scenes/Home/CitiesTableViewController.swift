@@ -9,7 +9,6 @@ import UIKit
 
 protocol CitiesTableViewProtocol: class {
     func getCities()
-    func createCity(cityName: String)
     func deleteCity(cityName: String, index: Int)
     func alertUser (alert: String)
     func reloadCities()
@@ -27,22 +26,8 @@ class CitiesTableViewController: UIViewController {
         self.viewModel.bindToView(view: self)
         self.getCities()
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        self.getCities()
-//    }
 
     @IBAction func addCity(_ sender: Any) {
-//        let alert = UIAlertController(title: "Add City", message: nil, preferredStyle: .alert)
-//        alert.addTextField { (cityTF) in cityTF.placeholder = "Enter City" }
-//        let action = UIAlertAction(title: "Add", style: .default) { (_) in
-//            guard let city = alert.textFields?.first?.text?.capitalized else {return}
-//            self.createCity(cityName: city)
-//            self.getCities()
-//        }
-//        alert.addAction(action)
-//        present(alert, animated: true)
         performSegue(withIdentifier: "goToAddCityForm", sender: self)
     }
 }
@@ -90,10 +75,6 @@ extension CitiesTableViewController {
 
 // MARK: - TableView Populator
 extension CitiesTableViewController: CitiesTableViewProtocol {
-
-    func createCity(cityName: String) {
-        viewModel.createCity(cityName: cityName)
-    }
 
     func getCities() {
         viewModel.getCities()

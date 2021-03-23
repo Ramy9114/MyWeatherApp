@@ -11,7 +11,6 @@ import CoreData
 protocol CitiesTableViewModelProtocol: class {
     func bindToView(view: CitiesTableViewProtocol)
     func getCities()
-    func createCity(cityName: String)
     func deleteCity (cityName: String, index: Int)
     func getNumberOfCities() -> Int
     var datasource: [String] {get}
@@ -50,36 +49,6 @@ extension CitiesTableViewModel: CitiesTableViewModelProtocol {
                 }
             }
             print(datasource)
-        }
-    }
-    
-    func createCity(cityName: String) {
-        // Check if the City already exists in Core Data
-        let response = useCases?.executeCheckCityFromCoreData(cityName: cityName)
-        
-        if response  == .cityAlreadyInlist {
-            self.view?.alertUser(alert: "City already exists in the list")
-        } else {
-            // Check if the API will return the city.
-            useCases?.executeGetCity(cityName: cityName, completion: { (weather, status, message) in
-                if status {
-                    let response = self.useCases?.executeSaveCity(cityName: cityName)
-                    switch response {
-                    case .cannotSave:
-                        self.view?.alertUser(alert: "Something Went Wrong, Please try again")
-                    case .processComplete:
-                        self.view?.alertUser(alert: "City Successfully Added!")
-                    case .cityNotFound:
-                        self.view?.alertUser(alert: "City Not Found")
-                    case .none:
-                        self.view?.alertUser(alert: "Nothing Happened")
-                    case .cityAlreadyInlist:
-                        print()
-                    }
-                } else {
-                    self.view?.alertUser(alert: message)
-                }
-            })
         }
     }
 

@@ -28,8 +28,8 @@ class AddCityFormViewController: UIViewController {
     weak var delegate: AddCityFormViewModelDelegate?
     // MARK: - Private properties
     var viewModel: AddCityFormViewModelProtocol!
+    
     // MARK: - View lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -42,12 +42,8 @@ class AddCityFormViewController: UIViewController {
     }
     
     @IBAction func submitTapped(_ sender: Any) {
-        // Clear the content of the Textfield
-        // Make the rest of the process
         let cityName = cityNameTextField.text
         addCity(cityName: cityName!)
-        
-//        Alert.showBasic(title: "", message: "Hello", vc: self)
     }
     
     // MARK: - Display logic
