@@ -31,7 +31,7 @@ final class CitiesTableUseCases {
 extension CitiesTableUseCases: CitiesTableUseCasesProtocol {
     
     func executeCheckIfCityExists(cityName: String) -> CoreDataError? {
-        return citiesRepository?.fetchCityFromCoreData(cityName: cityName)
+        return citiesRepository?.fetchCityFromList(cityName: cityName)
     }
     
     func executeGetCity(cityName: String, completion: @escaping (_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void) {

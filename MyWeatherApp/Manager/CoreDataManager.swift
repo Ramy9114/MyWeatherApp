@@ -25,9 +25,6 @@ protocol CoreDataManagerProtocol {
 }
 
 class CoreDataManager: CoreDataManagerProtocol {
-    
-    let API_KEY = "fac449c53f5bc8239820342f79d4edd7"
-    var BASEURL = "https://api.openweathermap.org/data/2.5/weather?q=London&appid=fac449c53f5bc8239820342f79d4edd7"
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var models = [CityItem]()
     
@@ -82,21 +79,4 @@ class CoreDataManager: CoreDataManagerProtocol {
         return .none
     }
 
-}
-
-// MARK: - JSON Decoding
-extension CoreDataManager {
-    func parseJSON(_ weatherData: Data) -> WeatherModel? {
-        do {
-            let decodedData = try JSONDecoder().decode(WeatherData.self, from: weatherData)
-            let weatherID = decodedData.weather[0].id
-            let temp = decodedData.main.temp
-            let name = decodedData.name
-
-            let weather = WeatherModel(conditionID: weatherID, cityName: name, temperature: temp)
-            return weather
-        } catch {
-            return nil
-        }
-    }
 }
