@@ -19,7 +19,6 @@ enum CoreDataError: Error {
 
 protocol CoreDataManagerProtocol {
     func saveCity(cityName: String) -> CoreDataError?
-    func getCity (cityName: String, completion: @escaping(_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void)
     func checkCityFromCoreData(cityName: String) -> CoreDataError?
     func getCities() -> [CityItem]
     func deleteCity (cityName: String)
@@ -68,35 +67,6 @@ class CoreDataManager: CoreDataManagerProtocol {
             }
         }
         print(getCities())
-    }
-    func getCity(cityName: String, completion: @escaping  (_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void) {
-        var existsInCoreData = false
-        // 1 check if the city already exists in Core Data
-        let models = self.getCities()
-        if !models.isEmpty {
-            for model in models {
-                if model.name == cityName {
-                    completion(nil, false, "City is already on the list!")
-                    existsInCoreData = true
-                }
-            }
-        }
-        if !existsInCoreData {
-            AF.request("https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(API_KEY)")
-                .responseJSON {(response) in
-                    guard let data = response.data else {return}
-                    let weather = self.parseJSON(data)
-                    print(weather)
-                    if weather != nil {
-                        print("i found it")
-                        completion(weather, true, "City found with weather")
-                    } else {
-                        print("i didn't find it")
-                        completion(nil, false, "The City Does Not Exist!")
-                        
-                    }
-                }
-        }
     }
     
     func checkCityFromCoreData(cityName: String) -> CoreDataError? {

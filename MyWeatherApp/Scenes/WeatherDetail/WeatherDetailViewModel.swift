@@ -38,7 +38,7 @@ extension WeatherDetailViewModel: WeatherDetailViewModelProtocol {
             if let weather = weather, status {
                 self.view?.displayWeather(weather: weather)
             } else {
-                print("weather not found")
+                self.view?.weatherNotFound(alert: "Weather was not retrieved, please try again!")
             }
         })
     }
