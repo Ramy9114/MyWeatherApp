@@ -17,10 +17,6 @@ class WeatherDetailViewModelMock: WeatherDetailViewModelProtocol {
     func getCurrentWeather(cityName: String?) {
         
     }
-    
-    func completionHandler(callBack: @escaping WeatherCallBack) {
-        
-    }
 
     var bindToViewCalled: Bool = false
     func bindToView(view: WeatherDetailViewModelProtocol) {

@@ -19,7 +19,7 @@ class CitiesTableViewControllerMock: CitiesTableViewProtocol {
         
     }
     
-    func deleteCity(name: String, index: Int) {
+    func deleteCity(cityName: String, index: Int) {
         
     }
     

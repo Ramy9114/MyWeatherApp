@@ -10,6 +10,7 @@ import UIKit
 protocol WeatherDetailViewProtocol: class {
     func getCurrentWeather(cityName: String?)
     func displayWeather(weather: WeatherModel)
+    func weatherNotFound(alert: String)
 }
 
 class WeatherDetailViewController: UIViewController {
@@ -30,11 +31,14 @@ class WeatherDetailViewController: UIViewController {
 
 extension WeatherDetailViewController: WeatherDetailViewProtocol {
     func displayWeather(weather: WeatherModel) {
-        print("here i am printing the weather")
         temperatureLabel.text = String(Int(weather.temperature))
         weatherImageView.image = UIImage(named: weather.conditionName)
     }
     func getCurrentWeather(cityName: String?) {
         viewModel?.getCurrentWeather(cityName: cityName)
+    }
+    
+    func weatherNotFound(alert: String) {
+        Alert.showBasic(title: "", message: alert, vc: self)
     }
 }

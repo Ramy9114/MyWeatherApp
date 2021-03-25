@@ -9,7 +9,7 @@ import Foundation
 
 protocol CitiesRepositoryProtocol: class {
     func fetchCity(cityName: String, completion: @escaping  (_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void)
-    func fetchCityFromCoreData(cityName: String) -> CoreDataError?
+    func fetchCityFromList(cityName: String) -> CoreDataError?
     func saveCity(cityName: String) -> CoreDataError?
     func getCities() -> [CityItem]?
     func deleteCity(cityName: String)
@@ -31,7 +31,7 @@ final class CitiesRepository {
 
 // MARK: - Execute functions
 extension CitiesRepository: CitiesRepositoryProtocol {
-    func fetchCityFromCoreData(cityName: String) -> CoreDataError? {
+    func fetchCityFromList(cityName: String) -> CoreDataError? {
         return coreDataManager?.checkCityFromCoreData(cityName: cityName)
     }
     

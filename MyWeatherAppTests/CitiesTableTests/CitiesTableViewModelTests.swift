@@ -23,7 +23,7 @@ class CitiesTableViewModelMock: CitiesTableViewModelProtocol {
         
     }
     
-    func deleteCity(name: String, index: Int) {
+    func deleteCity(cityName: String, index: Int) {
         
     }
     
@@ -92,7 +92,7 @@ class CitiesTableViewModelTests: XCTestCase {
         viewControllerMock.alertUserExpectation = expectation(description: "City Successfully Added!")
         
         // When
-        viewModel.createCity(name: name)
+//        viewModel.createCity(cityName: name)
         
         // Then
         waitForExpectations(timeout: 2) { (_) in
@@ -117,7 +117,7 @@ class CitiesTableViewModelTests: XCTestCase {
         viewControllerMock.alertUserExpectation = expectation(description: "City Successfully Added!")
         
         // When
-        viewModel.createCity(name: name)
+//        viewModel.createCity(name: name)
         waitForExpectations(timeout: 5) { (_) in
             XCTAssertEqual(alertString, self.viewControllerMock.alertUserString)
         }
