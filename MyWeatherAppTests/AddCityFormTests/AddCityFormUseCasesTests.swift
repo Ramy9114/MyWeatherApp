@@ -12,6 +12,7 @@ import XCTest
 // MARK: - AddCityFormUseCasesMock
 class AddCityFormUseCasesMock: CitiesTableUseCasesProtocol {
     func executeGetCities() -> [CityItem]? {
+        //modify this later
         return []
     }
     
