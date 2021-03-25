@@ -11,8 +11,20 @@ import XCTest
 
 // MARK: - CitiesTableUseCasesMock
 class CitiesTableUseCasesMock: CitiesTableUseCasesProtocol {
+    func executeSaveCity(cityName: String) -> CoreDataError? {
+        return .none
+    }
+    
+    func executeCheckIfCityExists(cityName: String) -> CoreDataError? {
+        return .none
+    }
+    
+    func executeDeleteCity(cityName: String) {
+        
+    }
+    
     func executeGetCities() -> [CityItem]? {
-        return nil
+        return []
     }
     
     var executeSaveCity: CityItem?
@@ -29,8 +41,9 @@ class CitiesTableUseCasesMock: CitiesTableUseCasesProtocol {
     var executeGetCity: String?
     var executeGetWeatherModelMock: WeatherModel?
     var executeGetAlertUserString: String?
-    func executeGetCity(name: String, completion: @escaping (WeatherModel?, Bool, String) -> Void) {
-        executeGetCity = name
+    
+    func executeGetCity(cityName: String, completion: @escaping (WeatherModel?, Bool, String) -> Void) {
+        executeGetCity = cityName
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             completion(self.executeGetWeatherModelMock, true, "")
         }

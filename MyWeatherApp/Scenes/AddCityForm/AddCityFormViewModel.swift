@@ -5,15 +5,9 @@
 //  Created by Rami Moubayed on 22/03/2021.
 //  Copyright (c) 2021 ___ORGANIZATIONNAME___. All rights reserved.
 //
-
-//protocol AddCityFormViewModelDelegate: class {
-//    func didAddCity(alert: String)
-//}
-
 protocol AddCityFormViewModelProtocol: class {
     func bindToView(view: AddCityFormViewProtocol)
     func addCity(cityName: String)
-    
 }
 
 final class AddCityFormViewModel {
@@ -39,7 +33,8 @@ extension AddCityFormViewModel: AddCityFormViewModelProtocol {
     
     func addCity(cityName: String) {
         // Check if the City already exists in Core Data
-        let response = useCases?.executeCheckCityFromCoreData(cityName: cityName)
+        // executeIfCityExists
+        let response = useCases?.executeCheckIfCityExists(cityName: cityName)
         
         if response  == .cityAlreadyInlist {
             self.view?.alertUser(alert: "City already exists in the list")
@@ -52,9 +47,7 @@ extension AddCityFormViewModel: AddCityFormViewModelProtocol {
                     case .cannotSave:
                         self.view?.alertUser(alert: "Something Went Wrong, Please try again")
                     case .processComplete:
-//                        self.view?.alertUser(alert: "City Successfully Added!")
                         self.view?.dismissVC()
-//                        self.delegate?.didAddCity(alert: "City Successfully Added!")
                     case .cityNotFound:
                         self.view?.alertUser(alert: "City Not Found")
                     case .none:

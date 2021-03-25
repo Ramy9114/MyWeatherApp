@@ -11,7 +11,7 @@ protocol CitiesTableUseCasesProtocol: class {
     func executeGetCities() -> [CityItem]?
     func executeSaveCity(cityName: String) -> CoreDataError?
     func executeGetCity(cityName: String, completion: @escaping (_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void)
-    func executeCheckCityFromCoreData(cityName: String) -> CoreDataError?
+    func executeCheckIfCityExists(cityName: String) -> CoreDataError?
     func executeDeleteCity(cityName: String)
 }
 
@@ -30,8 +30,8 @@ final class CitiesTableUseCases {
 // MARK: - Execute functions
 extension CitiesTableUseCases: CitiesTableUseCasesProtocol {
     
-    func executeCheckCityFromCoreData(cityName: String) -> CoreDataError? {
-        return citiesRepository?.fetchCityFromCoreData(cityName: cityName)
+    func executeCheckIfCityExists(cityName: String) -> CoreDataError? {
+        return citiesRepository?.fetchCityFromList(cityName: cityName)
     }
     
     func executeGetCity(cityName: String, completion: @escaping (_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void) {
