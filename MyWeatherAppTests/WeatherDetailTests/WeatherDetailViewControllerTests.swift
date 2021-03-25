@@ -12,7 +12,7 @@ import XCTest
 // MARK: - WeatherDetailViewControllerMock
 class WeatherDetailViewControllerMock: WeatherDetailViewProtocol {
     func weatherNotFound(alert: String) {
-        <#code#>
+        
     }
     
     func getCurrentWeather(cityName: String?) {
