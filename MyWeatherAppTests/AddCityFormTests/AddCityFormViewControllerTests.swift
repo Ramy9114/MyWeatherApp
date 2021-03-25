@@ -15,8 +15,11 @@ class AddCityFormViewControllerMock: AddCityFormViewProtocol {
         
     }
     
+    var alertUserExpectation: XCTestExpectation?
+    var alertUserString: String?
     func alertUser(alert: String) {
-        
+        alertUserString = alert
+        alertUserExpectation?.fulfill()
     }
     
     func dismissVC() {

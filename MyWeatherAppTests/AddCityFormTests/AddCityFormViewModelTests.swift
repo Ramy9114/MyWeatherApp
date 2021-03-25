@@ -108,13 +108,19 @@ class AddCityFormViewModelTests: XCTestCase {
     func testAddCityWithCityCheckSuccess() {
         // Given
         let cityName = "Paris"
+        let alertString = "City already exists in the list"
+        
         useCasesMock.executeCheckIfCityExistsErrorResponse = .cityAlreadyInlist
+        viewControllerMock.alertUserExpectation = expectation(description: "Expect Alert User to be called")
         
         // When
         viewModel.addCity(cityName: cityName)
         
         // Then
-        XCTAssertEqual(useCasesMock.executeCheckIfCityExistsErrorResponse, .cityAlreadyInlist)
+//        XCTAssertEqual(useCasesMock.executeCheckIfCityExistsErrorResponse, .cityAlreadyInlist)
+        waitForExpectations(timeout: 2) { (_) in
+            XCTAssertEqual(self.viewControllerMock.alertUserString, alertString)
+        }
     }
     
     // 2 - check if city exists (failure)
@@ -128,6 +134,7 @@ class AddCityFormViewModelTests: XCTestCase {
         
         // Then
         XCTAssertEqual(useCasesMock.executeCheckIfCityExistsErrorResponse, .none)
+        
     }
     
 }

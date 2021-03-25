@@ -28,9 +28,10 @@ class AddCityFormUseCasesMock: CitiesTableUseCasesProtocol {
         
     }
     
+    
+    
     // Current UseCase Implementation
     var executeCheckIfCityExistsErrorResponse: CoreDataError?
-    
     func executeCheckIfCityExists(cityName: String) -> CoreDataError? {
         return executeCheckIfCityExistsErrorResponse
     }
