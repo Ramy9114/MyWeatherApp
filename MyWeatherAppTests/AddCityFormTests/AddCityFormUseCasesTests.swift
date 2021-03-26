@@ -12,7 +12,7 @@ import XCTest
 // MARK: - AddCityFormUseCasesMock
 class AddCityFormUseCasesMock: CitiesTableUseCasesProtocol {
     func executeGetCities() -> [CityItem]? {
-        //modify this later
+        // modify this later
         return []
     }
     
@@ -28,12 +28,26 @@ class AddCityFormUseCasesMock: CitiesTableUseCasesProtocol {
         
     }
     
-    
-    
     // Current UseCase Implementation
     var executeCheckIfCityExistsErrorResponse: CoreDataError?
     func executeCheckIfCityExists(cityName: String) -> CoreDataError? {
         return executeCheckIfCityExistsErrorResponse
+    }
+    
+    // UseCase of Weather API call
+    var executeGetCityCityName: String?
+    var executeGetCityWeatherModelMock: WeatherModel?
+    var executeGetCityStatusMock: Bool?
+    var executeGetCityMessageMock: String?
+    
+    func executeGetCity(cityName: String?, completion: @escaping (WeatherModel?, Bool, String) -> Void) {
+        executeGetCityCityName = cityName
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            completion(self.executeGetCityWeatherModelMock,
+                       self.executeGetCityStatusMock ?? true,
+                       self.executeGetCityMessageMock ?? "")
+        }
     }
     
 }

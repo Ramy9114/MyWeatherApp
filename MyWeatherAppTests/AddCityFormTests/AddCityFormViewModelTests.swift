@@ -104,8 +104,10 @@ class AddCityFormViewModelTests: XCTestCase {
     
     // TESTING ADD CITY FUNCTIONALITY WITH EACH SCENARIO
     
+    // MARK: - FIRST IF ELSE
+    
     // 1 - check if city exists (success)
-    func testAddCityWithCityCheckSuccess() {
+    func testAddCityWithCityFound() {
         // Given
         let cityName = "Paris"
         let alertString = "City already exists in the list"
@@ -124,7 +126,7 @@ class AddCityFormViewModelTests: XCTestCase {
     }
     
     // 2 - check if city exists (failure)
-    func testAddCityWithCityCheckFailure() {
+    func testAddCityWithCityNotFound() {
         // Given
         let cityName = "Paris"
         useCasesMock.executeCheckIfCityExistsErrorResponse = .none
@@ -136,5 +138,44 @@ class AddCityFormViewModelTests: XCTestCase {
         XCTAssertEqual(useCasesMock.executeCheckIfCityExistsErrorResponse, .none)
         
     }
+    
+    // MARK: - SECOND IF ELSE
+    
+    // 2 - get city from Weather API (success)
+    func testAddCityWithGetCitySuccess() {
+        // Given
+        let cityName = "Paris"
+        useCasesMock.executeGetCityWeatherModelMock = WeatherModel(conditionID: 200, cityName: "Paris", temperature: 1.0)
+        useCasesMock.executeGetCityStatusMock = true
+        
+        // When
+        viewModel.addCity(cityName: cityName)
+        
+        // Then
+        // To Be Continued...
+        XCTAssertTrue((useCasesMock.executeGetCityStatusMock != nil))
+    }
+    
+    func testAddCityWithGetCityFailure() {
+        // Given
+        let cityName = "Paris"
+        let message = "City Not Found"
+//        let alertString = "City already exists in the list"
+        useCasesMock.executeGetCityWeatherModelMock = nil
+        useCasesMock.executeGetCityStatusMock = false
+        useCasesMock.executeGetCityMessageMock = message
+        viewControllerMock.alertUserExpectation = expectation(description: "Expect Alert User to be called with message")
+        
+        // When
+        viewModel.addCity(cityName: cityName)
+        
+        // Then
+        waitForExpectations(timeout: 2) { (_) in
+            XCTAssertEqual(self.useCasesMock.executeGetCityMessageMock, self.viewControllerMock.alertUserString)
+//            XCTAssertTrue((self.useCasesMock.executeGetCityStatusMock != nil))
+        }
+    }
+    
+    // MARK: - SWITCH CASES
     
 }
