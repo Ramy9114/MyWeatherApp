@@ -15,7 +15,7 @@ protocol AddCityFormViewModelDelegate: class {
 protocol AddCityFormViewProtocol: class {
     func addCity(cityName: String)
     func alertUser (alert: String)
-    func dismissVC()
+    func dismissVC(alert: String)
 }
 
 class AddCityFormViewController: UIViewController {
@@ -91,9 +91,9 @@ extension AddCityFormViewController: AddCityFormViewProtocol {
         
     }
     
-    func dismissVC() {
+    func dismissVC(alert: String) {
         self.dismiss(animated: true, completion: nil)
-        self.delegate?.didAddCity(alert: "City Successfully Added!")
+        self.delegate?.didAddCity(alert: alert)
     }
 }
 

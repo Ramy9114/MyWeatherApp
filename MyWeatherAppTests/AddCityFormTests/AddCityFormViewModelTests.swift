@@ -113,16 +113,12 @@ class AddCityFormViewModelTests: XCTestCase {
         let alertString = "City already exists in the list"
         
         useCasesMock.executeCheckIfCityExistsErrorResponse = .cityAlreadyInlist
-        viewControllerMock.alertUserExpectation = expectation(description: "Expect Alert User to be called")
         
         // When
         viewModel.addCity(cityName: cityName)
         
         // Then
-//        XCTAssertEqual(useCasesMock.executeCheckIfCityExistsErrorResponse, .cityAlreadyInlist)
-        waitForExpectations(timeout: 2) { (_) in
-            XCTAssertEqual(self.viewControllerMock.alertUserString, alertString)
-        }
+        XCTAssertEqual(self.viewControllerMock.alertUserString, alertString)
     }
     
     // 2 - check if city exists (failure)
@@ -135,8 +131,7 @@ class AddCityFormViewModelTests: XCTestCase {
         viewModel.addCity(cityName: cityName)
         
         // Then
-        XCTAssertEqual(useCasesMock.executeCheckIfCityExistsErrorResponse, .none)
-        
+        XCTAssertTrue(useCasesMock.executeGetCityCalled)
     }
     
     // MARK: - SECOND IF ELSE
@@ -145,15 +140,18 @@ class AddCityFormViewModelTests: XCTestCase {
     func testAddCityWithGetCitySuccess() {
         // Given
         let cityName = "Paris"
+        useCasesMock.executeCheckIfCityExistsErrorResponse = .none
         useCasesMock.executeGetCityWeatherModelMock = WeatherModel(conditionID: 200, cityName: "Paris", temperature: 1.0)
         useCasesMock.executeGetCityStatusMock = true
+        useCasesMock.executeGetCityMessageMock = "City Successfully Added"
         
         // When
         viewModel.addCity(cityName: cityName)
         
         // Then
-        // To Be Continued...
-        XCTAssertTrue((useCasesMock.executeGetCityStatusMock != nil))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            XCTAssertTrue(self.useCasesMock.executeSaveCityCalled)
+        }
     }
     
     func testAddCityWithGetCityFailure() {
@@ -161,21 +159,45 @@ class AddCityFormViewModelTests: XCTestCase {
         let cityName = "Paris"
         let message = "City Not Found"
 //        let alertString = "City already exists in the list"
+        useCasesMock.executeCheckIfCityExistsErrorResponse = .none
         useCasesMock.executeGetCityWeatherModelMock = nil
         useCasesMock.executeGetCityStatusMock = false
         useCasesMock.executeGetCityMessageMock = message
-        viewControllerMock.alertUserExpectation = expectation(description: "Expect Alert User to be called with message")
+        viewControllerMock.alertUserExpectation = expectation(description: "Expect Alert User to be called")
         
         // When
         viewModel.addCity(cityName: cityName)
         
         // Then
-        waitForExpectations(timeout: 2) { (_) in
+        waitForExpectations(timeout: 3) { (_) in
             XCTAssertEqual(self.useCasesMock.executeGetCityMessageMock, self.viewControllerMock.alertUserString)
-//            XCTAssertTrue((self.useCasesMock.executeGetCityStatusMock != nil))
         }
+        
     }
     
     // MARK: - SWITCH CASES
+    
+    func testAddCityWithSaveCityProcessComplete() {
+        // Given
+        let cityName = "Paris"
+        let alertString = "City Successfully Added!"
+        let message = "City Not Found"
+        useCasesMock.executeCheckIfCityExistsErrorResponse = .none
+        useCasesMock.executeGetCityWeatherModelMock = WeatherModel(conditionID: 200, cityName: "Paris", temperature: 1.0)
+        useCasesMock.executeGetCityStatusMock = true
+        useCasesMock.executeGetCityMessageMock = "City Successfully Added"
+        useCasesMock.executeSaveCityErrorResponse = .processComplete
+        viewControllerMock.dismissVCExpectation = expectation(description: "Expect DismissVC to be called")
+        
+        // When
+        viewModel.addCity(cityName: cityName)
+        
+        
+        // Then
+        waitForExpectations(timeout: 2) { (_) in
+            XCTAssertEqual(self.viewControllerMock.dismissVCAlertString, alertString)
+        }
+        
+    }
     
 }

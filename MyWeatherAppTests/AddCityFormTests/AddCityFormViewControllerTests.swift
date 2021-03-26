@@ -11,6 +11,8 @@ import XCTest
 
 // MARK: - AddCityFormViewControllerMock
 class AddCityFormViewControllerMock: AddCityFormViewProtocol {
+
+    
     func addCity(cityName: String) {
         
     }
@@ -20,10 +22,14 @@ class AddCityFormViewControllerMock: AddCityFormViewProtocol {
     func alertUser(alert: String) {
         alertUserString = alert
         alertUserExpectation?.fulfill()
+        
     }
     
-    func dismissVC() {
-        
+    var dismissVCExpectation: XCTestExpectation?
+    var dismissVCAlertString: String?
+    func dismissVC(alert: String) {
+        dismissVCAlertString = alert
+        dismissVCExpectation?.fulfill()
     }
     
 }
