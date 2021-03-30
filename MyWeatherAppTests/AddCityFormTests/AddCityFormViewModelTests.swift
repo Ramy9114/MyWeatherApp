@@ -192,7 +192,6 @@ class AddCityFormViewModelTests: XCTestCase {
         // When
         viewModel.addCity(cityName: cityName)
         
-        
         // Then
         waitForExpectations(timeout: 2) { (_) in
             XCTAssertEqual(self.viewControllerMock.dismissVCAlertString, alertString)

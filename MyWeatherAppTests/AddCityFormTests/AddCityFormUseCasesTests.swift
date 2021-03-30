@@ -44,6 +44,7 @@ class AddCityFormUseCasesMock: CitiesTableUseCasesProtocol {
         }
     }
     
+    
     var executeSaveCityCalled = false
     var executeSaveCityName: String?
     var executeSaveCityErrorResponse: CoreDataError?
@@ -54,3 +55,4 @@ class AddCityFormUseCasesMock: CitiesTableUseCasesProtocol {
     }
     
 }
+
