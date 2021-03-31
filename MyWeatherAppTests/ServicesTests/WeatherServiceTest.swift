@@ -63,27 +63,5 @@ class WeatherServiceTest: XCTestCase {
         // Then
         XCTAssertNotEqual(decodedData.name, "Paris")
     }
-    
-    func testParseJSONWithCorruptedCityKey() throws {
-        // Given
-        var isDecodable = true
-        guard let pathString = Bundle(for: type(of: self)).path(forResource: "corruptedWeather", ofType: "json") else {
-            fatalError("JSON file was not found")
-        }
-        
-        guard let weatherData = try? String(contentsOfFile: pathString, encoding: .utf8) else {
-            fatalError("Unable to convert JSON to String")
-        }
-        
-        let jsonData = weatherData.data(using: .utf8)!
-        let decodedData = try JSONDecoder().decode(WeatherData.self, from: jsonData)
-        
-        // When
-        weatherService.parseJSON(jsonData)
-        
-        // Then
-//        XCTAssertNotEqual(decodedData.name, "Paris")
-        XCTAssertNil(nil)
-    }
 
 }

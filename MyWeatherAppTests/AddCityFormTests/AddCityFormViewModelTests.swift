@@ -154,6 +154,8 @@ class AddCityFormViewModelTests: XCTestCase {
         }
     }
     
+    
+    
     func testAddCityWithGetCityFailure() {
         // Given
         let cityName = "Paris"

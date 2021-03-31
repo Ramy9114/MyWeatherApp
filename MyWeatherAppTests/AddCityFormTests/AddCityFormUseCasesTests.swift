@@ -54,5 +54,7 @@ class AddCityFormUseCasesMock: CitiesTableUseCasesProtocol {
         return executeSaveCityErrorResponse
     }
     
+    // add the fulfill in use case and add the expectation in the view model.
+    
 }
 

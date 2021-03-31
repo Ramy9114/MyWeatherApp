@@ -8,5 +8,5 @@ target 'MyWeatherApp' do
   pod 'Alamofire', '~> 5.2'
   pod 'Swinject'
   pod 'SwiftLint'
-  
+  pod 'Mocker', '~> 2.2.0'
 end
