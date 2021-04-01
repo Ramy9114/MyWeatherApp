@@ -18,11 +18,14 @@ protocol WeatherServiceProtocol {
 }
 
 class WeatherService: WeatherServiceProtocol {
+    
     let APIKEY = "fac449c53f5bc8239820342f79d4edd7"
     
     func fetchCurrentWeather(cityName: String?, completion: @escaping  (_ weather: WeatherModel?, _ status: Bool, _ message: String) -> Void) {
         AF.request("https://api.openweathermap.org/data/2.5/weather?q=\(cityName!)&appid=\(APIKEY)&units=metric")
             .responseJSON {(response) in
+                print(response)
+                print(response.response?.statusCode)
                 guard let data = response.data else {return}
                 let weather = self.parseJSON(data)
                 if weather != nil {
