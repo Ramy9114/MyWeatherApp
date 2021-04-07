@@ -68,27 +68,26 @@ class WeatherServiceTest: XCTestCase {
     
     func testFetchCurrentWeatherSuccess() {
         // Given
-        // Step 1
         let cityName = "Paris"
         let url = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(weatherService.APIKEY)&units=metric"
-        
-        // Step 2: Mocking URL Protocol
+
+        // Step 1: Mocking URL Protocol
         let configuration = URLSessionConfiguration.af.default
-        configuration.protocolClasses = [MockingURLProtocol.self] + (configuration.protocolClasses ?? [])
+        configuration.protocolClasses = [MockingURLProtocol.self]
         let sessionManager = Session(configuration: configuration)
 
-        // Step 3: Define URL and expected Data
+        // Step 2: Define URL and expected Data
         let apiEndpoint = URL(string: url)!
         let expectedWeather = WeatherData(name: "Paris", main: Main(temp: 50.0), weather: [Weather(id: 200, description: "Rainy")])
         let requestExpectation = expectation(description: "Request should finish")
         
-        // Step 4: Register Mock Response by Encoding Model
+        // Step 3: Register Mock Response by Encoding Model
         let mockedData = try! JSONEncoder().encode(expectedWeather)
         let mock = Mock(url: apiEndpoint, dataType: .json, statusCode: 200, data: [.get: mockedData])
         mock.register()
         
         // When
-        weatherService.fetchCurrentWeather(cityName: cityName) { (weatherModel, status, message) in
+//        weatherService.fetchCurrentWeather(cityName: cityName) { (weatherModel, status, message) in
         
         // Then
         sessionManager
@@ -96,13 +95,12 @@ class WeatherServiceTest: XCTestCase {
             .responseDecodable(of: WeatherData.self) { (response) in
                 XCTAssertNil(response.error)
                 XCTAssertEqual(response.value?.name, expectedWeather.name)
-//                XCTAssertEqual(response.value?.name, weatherModel?.cityName)
 
                 requestExpectation.fulfill()
             }.resume()
-        }
+//        }
         self.wait(for: [requestExpectation], timeout: 10.0)
-        
+         
     }
     
     func testFetchCurrentWeatherFailure() {
@@ -113,7 +111,7 @@ class WeatherServiceTest: XCTestCase {
         
         // Step 2: Mocking URL Protocol
         let configuration = URLSessionConfiguration.af.default
-        configuration.protocolClasses = [MockingURLProtocol.self] + (configuration.protocolClasses ?? [])
+        configuration.protocolClasses = [MockingURLProtocol.self]
         let sessionManager = Session(configuration: configuration)
 
         // Step 3: Define URL and expected Data
@@ -127,7 +125,7 @@ class WeatherServiceTest: XCTestCase {
         mock.register()
         
         // When
-        weatherService.fetchCurrentWeather(cityName: cityName) { (weatherModel, status, message) in
+//        weatherService.fetchCurrentWeather(cityName: cityName) { (weatherModel, status, message) in
         
         // Then
         sessionManager
@@ -136,10 +134,9 @@ class WeatherServiceTest: XCTestCase {
                 XCTAssertNotNil(response.error)
 //                XCTAssertNotEqual(response.value?.name, expectedWeather.name)
 //                XCTAssertEqual(response.value?.name, weatherModel?.cityName)
-
                 requestExpectation.fulfill()
             }.resume()
-        }
+//        }
         self.wait(for: [requestExpectation], timeout: 10.0)
     }
 }
