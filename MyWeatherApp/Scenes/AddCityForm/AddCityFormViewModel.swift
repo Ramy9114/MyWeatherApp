@@ -47,7 +47,7 @@ extension AddCityFormViewModel: AddCityFormViewModelProtocol {
                     case .cannotSave:
                         self.view?.alertUser(alert: "Something Went Wrong, Please try again")
                     case .processComplete:
-                        self.view?.dismissVC()
+                        self.view?.dismissVC(alert: "City Successfully Added!")
                     case .cityNotFound:
                         self.view?.alertUser(alert: "City Not Found")
                     case .none:

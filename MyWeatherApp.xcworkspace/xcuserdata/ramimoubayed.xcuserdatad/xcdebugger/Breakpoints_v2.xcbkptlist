@@ -3,4 +3,54 @@
    uuid = "6A7E0D7D-6F4B-4C0D-9861-A365EEF94279"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DDA0FF67-5EA9-4064-B67F-22C9B10DBDD9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyWeatherApp/Scenes/AddCityForm/AddCityFormViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "addCity(cityName:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DDA0FF67-5EA9-4064-B67F-22C9B10DBDD9 - b95dc5b7c7c0d352"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyWeatherApp.AddCityFormViewModel.addCity(cityName: Swift.String) -&gt; ()"
+                  moduleName = "MyWeatherApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ramimoubayed/Desktop/iOSDev/Angela%20Yu%20UDEMY%20Course%20(iOS%2013)/iOS-projects/MyWeatherApp/MyWeatherApp/Scenes/AddCityForm/AddCityFormViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "718">
+               </Location>
+               <Location
+                  uuid = "DDA0FF67-5EA9-4064-B67F-22C9B10DBDD9 - 126cd7098fe438c6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;MyWeatherApp.WeatherModel&gt;, Swift.Bool, Swift.String) -&gt; () in MyWeatherApp.AddCityFormViewModel.addCity(cityName: Swift.String) -&gt; ()"
+                  moduleName = "MyWeatherApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ramimoubayed/Desktop/iOSDev/Angela%20Yu%20UDEMY%20Course%20(iOS%2013)/iOS-projects/MyWeatherApp/MyWeatherApp/Scenes/AddCityForm/AddCityFormViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "393">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

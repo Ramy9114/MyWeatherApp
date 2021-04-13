@@ -13,3 +13,4 @@ disabled_rules:
  - function_parameter_count
  - type_name
  - type_body_length
+ - force_try

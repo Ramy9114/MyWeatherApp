@@ -11,16 +11,10 @@ import XCTest
 
 // MARK: - AddCityFormUseCasesMock
 class AddCityFormUseCasesMock: CitiesTableUseCasesProtocol {
+    
     func executeGetCities() -> [CityItem]? {
+        // modify this later
         return []
-    }
-    
-    func executeSaveCity(cityName: String) -> CoreDataError? {
-        return .none
-    }
-    
-    func executeGetCity(cityName: String, completion: @escaping (WeatherModel?, Bool, String) -> Void) {
-        completion(nil, true, "")
     }
     
     func executeDeleteCity(cityName: String) {
@@ -29,9 +23,38 @@ class AddCityFormUseCasesMock: CitiesTableUseCasesProtocol {
     
     // Current UseCase Implementation
     var executeCheckIfCityExistsErrorResponse: CoreDataError?
-    
     func executeCheckIfCityExists(cityName: String) -> CoreDataError? {
         return executeCheckIfCityExistsErrorResponse
     }
     
+    // UseCase of Weather API call
+    var executeGetCityCalled = false
+    var executeGetCityCityName: String?
+    var executeGetCityWeatherModelMock: WeatherModel?
+    var executeGetCityStatusMock: Bool?
+    var executeGetCityMessageMock: String?
+    func executeGetCity(cityName: String, completion: @escaping (WeatherModel?, Bool, String) -> Void) {
+        executeGetCityCalled = true
+        executeGetCityCityName = cityName
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            completion(self.executeGetCityWeatherModelMock,
+                       self.executeGetCityStatusMock ?? true,
+                       self.executeGetCityMessageMock ?? "")
+        }
+    }
+    
+    
+    var executeSaveCityCalled = false
+    var executeSaveCityName: String?
+    var executeSaveCityErrorResponse: CoreDataError?
+    func executeSaveCity(cityName: String) -> CoreDataError? {
+        executeSaveCityCalled = true
+        executeSaveCityName = cityName
+        return executeSaveCityErrorResponse
+    }
+    
+    // add the fulfill in use case and add the expectation in the view model.
+    
 }
+

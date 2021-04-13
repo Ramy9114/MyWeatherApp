@@ -104,21 +104,25 @@ class AddCityFormViewModelTests: XCTestCase {
     
     // TESTING ADD CITY FUNCTIONALITY WITH EACH SCENARIO
     
+    // MARK: - FIRST IF ELSE
+    
     // 1 - check if city exists (success)
-    func testAddCityWithCityCheckSuccess() {
+    func testAddCityWithCityFound() {
         // Given
         let cityName = "Paris"
+        let alertString = "City already exists in the list"
+        
         useCasesMock.executeCheckIfCityExistsErrorResponse = .cityAlreadyInlist
         
         // When
         viewModel.addCity(cityName: cityName)
         
         // Then
-        XCTAssertEqual(useCasesMock.executeCheckIfCityExistsErrorResponse, .cityAlreadyInlist)
+        XCTAssertEqual(self.viewControllerMock.alertUserString, alertString)
     }
     
     // 2 - check if city exists (failure)
-    func testAddCityWithCityCheckFailure() {
+    func testAddCityWithCityNotFound() {
         // Given
         let cityName = "Paris"
         useCasesMock.executeCheckIfCityExistsErrorResponse = .none
@@ -127,7 +131,74 @@ class AddCityFormViewModelTests: XCTestCase {
         viewModel.addCity(cityName: cityName)
         
         // Then
-        XCTAssertEqual(useCasesMock.executeCheckIfCityExistsErrorResponse, .none)
+        XCTAssertTrue(useCasesMock.executeGetCityCalled)
+    }
+    
+    // MARK: - SECOND IF ELSE
+    
+    // 2 - get city from Weather API (success)
+    func testAddCityWithGetCitySuccess() {
+        // Given
+        let cityName = "Paris"
+        useCasesMock.executeCheckIfCityExistsErrorResponse = .none
+        useCasesMock.executeGetCityWeatherModelMock = WeatherModel(conditionID: 200, cityName: "Paris", temperature: 1.0)
+        useCasesMock.executeGetCityStatusMock = true
+        useCasesMock.executeGetCityMessageMock = "City Successfully Added"
+        
+        // When
+        viewModel.addCity(cityName: cityName)
+        
+        // Then
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            XCTAssertTrue(self.useCasesMock.executeSaveCityCalled)
+        }
+    }
+    
+    
+    
+    func testAddCityWithGetCityFailure() {
+        // Given
+        let cityName = "Paris"
+        let message = "City Not Found"
+//        let alertString = "City already exists in the list"
+        useCasesMock.executeCheckIfCityExistsErrorResponse = .none
+        useCasesMock.executeGetCityWeatherModelMock = nil
+        useCasesMock.executeGetCityStatusMock = false
+        useCasesMock.executeGetCityMessageMock = message
+        viewControllerMock.alertUserExpectation = expectation(description: "Expect Alert User to be called")
+        
+        // When
+        viewModel.addCity(cityName: cityName)
+        
+        // Then
+        waitForExpectations(timeout: 3) { (_) in
+            XCTAssertEqual(self.useCasesMock.executeGetCityMessageMock, self.viewControllerMock.alertUserString)
+        }
+        
+    }
+    
+    // MARK: - SWITCH CASES
+    
+    func testAddCityWithSaveCityProcessComplete() {
+        // Given
+        let cityName = "Paris"
+        let alertString = "City Successfully Added!"
+        let message = "City Not Found"
+        useCasesMock.executeCheckIfCityExistsErrorResponse = .none
+        useCasesMock.executeGetCityWeatherModelMock = WeatherModel(conditionID: 200, cityName: "Paris", temperature: 1.0)
+        useCasesMock.executeGetCityStatusMock = true
+        useCasesMock.executeGetCityMessageMock = "City Successfully Added"
+        useCasesMock.executeSaveCityErrorResponse = .processComplete
+        viewControllerMock.dismissVCExpectation = expectation(description: "Expect DismissVC to be called")
+        
+        // When
+        viewModel.addCity(cityName: cityName)
+        
+        // Then
+        waitForExpectations(timeout: 2) { (_) in
+            XCTAssertEqual(self.viewControllerMock.dismissVCAlertString, alertString)
+        }
+        
     }
     
 }
