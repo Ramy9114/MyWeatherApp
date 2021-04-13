@@ -38,7 +38,7 @@ class WeatherServiceTest: XCTestCase {
         let decodedData = try! JSONDecoder().decode(WeatherData.self, from: jsonData)
         
         // When
-        weatherService.parseJSON(jsonData)
+        weatherService.parseJSON(jsonData) 
         
         // Then
         XCTAssertEqual(decodedData.weather[0].id, 800)
@@ -71,7 +71,7 @@ class WeatherServiceTest: XCTestCase {
         let cityName = "Paris"
         let url = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(weatherService.APIKEY)&units=metric"
 
-        // Step 1: Mocking URL Protocol
+        // Step 1: Add a Custom URL Protocol
         let configuration = URLSessionConfiguration.af.default
         configuration.protocolClasses = [MockingURLProtocol.self]
         let sessionManager = Session(configuration: configuration)
@@ -87,7 +87,7 @@ class WeatherServiceTest: XCTestCase {
         mock.register()
         
         // When
-//        weatherService.fetchCurrentWeather(cityName: cityName) { (weatherModel, status, message) in
+        weatherService.fetchCurrentWeather(cityName: cityName) { (weatherModel, status, message) in
         
         // Then
         sessionManager
@@ -98,7 +98,7 @@ class WeatherServiceTest: XCTestCase {
 
                 requestExpectation.fulfill()
             }.resume()
-//        }
+        }
         self.wait(for: [requestExpectation], timeout: 10.0)
          
     }
@@ -109,7 +109,7 @@ class WeatherServiceTest: XCTestCase {
         let cityName = "XXXX"
         let url = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=\(weatherService.APIKEY)&units=metric"
         
-        // Step 2: Mocking URL Protocol
+        // Step 2: Add a Custom URL Protocol
         let configuration = URLSessionConfiguration.af.default
         configuration.protocolClasses = [MockingURLProtocol.self]
         let sessionManager = Session(configuration: configuration)
